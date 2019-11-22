@@ -1,3 +1,4 @@
+import os
 import models
 
 from flask import Flask, jsonify, g 
@@ -40,15 +41,18 @@ def after_request(response):
     g.db.close()
     return response
 
-CORS(car, origins=['http://localhost:3000'], supports_credentials=True, url_prefix='/api/v1/cars') # adding this line
+CORS(car, origins=['http://localhost:3000', 'https://car-maintenance-app-react.herokuapp.com/'], supports_credentials=True, url_prefix='/api/v1/cars') # adding this line
 
 
 app.register_blueprint(car, url_prefix='/api/v1/cars')
 
-CORS(user, origins=['http://localhost:3000'], supports_credentials=True, url_prefix='/api/v1/user') # adding this line
+CORS(user, origins=['http://localhost:3000', 'https://car-maintenance-app-react.herokuapp.com/'], supports_credentials=True, url_prefix='/api/v1/user') # adding this line
 
 app.register_blueprint(user, url_prefix='/api/v1/user')
 
+if 'ON_HEROKU' in os.environ:
+    print('hitting ')
+    models.initialized()
 
 # Run the app when the program starts!
 if __name__ == '__main__':

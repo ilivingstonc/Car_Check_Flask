@@ -1,14 +1,19 @@
+import os 
 import datetime
 from peewee import *
 from flask_login import UserMixin
 from playhouse.postgres_ext import *
+from playhouse.db_url import connect
 
-DATABASE = PostgresqlExtDatabase(
-    'car_app',
-    user='ian',
-    password='password',
-    host='localhost'
-)
+if 'ON_HEROKU' in os.environ:
+    DATABASE = connect(os.environ.get('DATABASE_URL'))
+else:
+    DATABASE = PostgresqlExtDatabase(
+        'car_app',
+        user='ian',
+        password='password',
+        host='localhost'
+    )
 
 class User(UserMixin, Model):
     email = CharField(unique=True)
