@@ -55,7 +55,7 @@ def car_search():
     # [model_to_dict(car) for car in results] => would return all 
     
     
-    car_dict = model_to_dict(results[0])['data'] # Return first car
+    car_dict = model_to_dict(results[0]) # Return first car
     return jsonify(data=car_dict, status={'code': '200', 'msg': 'Search success'})
 
 @car.route('/<id>', methods=["GET"])
