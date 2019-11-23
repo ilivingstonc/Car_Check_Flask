@@ -10,7 +10,7 @@ if 'ON_HEROKU' in os.environ:
 else:
     DATABASE = PostgresqlExtDatabase(
         'car_app',
-        user='ian',
+        user='home',
         password='password',
         host='localhost'
     )
