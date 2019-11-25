@@ -1,6 +1,7 @@
 import models
 
 from flask import Blueprint, jsonify, request
+from flask_login import current_user, login_required
 
 from playhouse.shortcuts import model_to_dict
 # playhouse is from peewee
@@ -29,8 +30,9 @@ def create_savedcars():
 
     payload = request.get_json()
     print(payload, 'payload')
+    
+    payload['owner'] = current_user.id
     savedcar = models.SavedCar.create(**payload)
-
     savedcar_dict = model_to_dict(savedcar)
     
     return jsonify(data=savedcar_dict, status={"code": 201, "message": "Success"})
