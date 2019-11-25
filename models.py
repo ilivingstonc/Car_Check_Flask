@@ -34,9 +34,19 @@ class Car(Model):
         db_table = 'cars'
         database = DATABASE
 
+class SavedCar(Model):
+    make = CharField()
+    model = CharField()
+    year = IntegerField()
+    data = JSONField(default={})
+    created_at = DateTimeField(default=datetime.datetime.now)
+
+    class Meta:
+        db_table = 'savedcars'
+        database = DATABASE
 
 def initialize():
     DATABASE.connect()
-    DATABASE.create_tables([User, Car], safe=True)
+    DATABASE.create_tables([User, Car, SavedCar], safe=True)
     print("TABLES Created")
     DATABASE.close()
