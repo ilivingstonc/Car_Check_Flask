@@ -15,14 +15,21 @@ car = Blueprint('cars', 'car')
 @car.route('/', methods=["GET"])
 def get_all_cars():
  
-    try:
-        cars = [model_to_dict(car) for car in models.Car.select()]
-    
-        print(car)
-        return jsonify(data=cars, status={"code": 200, "message": "Success"})
-    except models.DoesNotExist:
-        return jsonify(data={}, status={"code": 401, "message": "Error getting the resources"})
+    all_cars = [model_to_dict(d, max_depth=0) for car in models.Dog.select()]
 
+    return jsonify(data=all_dogs, status={'code': 200, 'message': 'Success'})
+
+
+@car.route('/<car_id>', methods=["GET"])
+def get_car(id):
+
+    car = model_to_dict(models.Car.get_by_id(id=car_id, max_depth=0))
+   
+    return jsonify(data=car, status={"code": 200, "message": "Success"})
+     except models.DoesNotExist:
+        # If the id does not match an id of a car in the database return 404 error
+        return jsonify(data={}, status={'code': 404, 'message': 'Car not found'})
+   
 
 @car.route('/', methods=["POST"])
 def create_cars():
@@ -58,13 +65,7 @@ def car_search():
     car_dict = model_to_dict(results[0]) # Return first car
     return jsonify(data=car_dict, status={'code': '200', 'msg': 'Search success'})
 
-@car.route('/<id>', methods=["GET"])
-def get_car(id):
 
-    car = models.Car.get_by_id(id)
-   
-
-    return jsonify(data=model_to_dict(car), status={"code": 200, "message": "Success"})
 
 @car.route('/<id>', methods=["PUT"])
 def update_car(id):
