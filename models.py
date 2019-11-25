@@ -19,6 +19,12 @@ class User(UserMixin, Model):
     email = CharField(unique=True)
     password = CharField()
 
+    def __str__(self):
+        return '<User: {}, id: {}>'.format(self.email, self.id)
+
+    def __repr__(self):
+        return '<User: {}, id: {}>'.format(self.email, self.id)
+
     class Meta:
         db_table = 'users'
         database = DATABASE
@@ -39,6 +45,7 @@ class SavedCar(Model):
     model = CharField()
     year = IntegerField()
     data = JSONField(default={})
+    owner = ForeignKeyField(User, backref='cars')
     created_at = DateTimeField(default=datetime.datetime.now)
 
     class Meta:
