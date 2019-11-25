@@ -1,6 +1,7 @@
 import models
 
 from flask import Blueprint, jsonify, request
+from flask_login import current_user, login_required
 
 from playhouse.shortcuts import model_to_dict
 # playhouse is from peewee
@@ -22,13 +23,13 @@ def get_all_cars():
 
 @car.route('/<car_id>', methods=["GET"])
 def get_car(id):
-
-    car = model_to_dict(models.Car.get_by_id(id=car_id, max_depth=0))
-   
-    return jsonify(data=car, status={"code": 200, "message": "Success"})
-     except models.DoesNotExist:
+    try: 
+        car = model_to_dict(models.Car.get_by_id(id=car_id, max_depth=0))
+        return jsonify(data=car, status={"code": 200, "message": "Success"})
+    except models.DoesNotExist:
         # If the id does not match an id of a car in the database return 404 error
         return jsonify(data={}, status={'code': 404, 'message': 'Car not found'})
+    
    
 
 @car.route('/', methods=["POST"])
