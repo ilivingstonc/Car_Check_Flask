@@ -41,6 +41,7 @@ class Car(Model):
         database = DATABASE
 
 class SavedCar(Model):
+    event_id = AutoField()
     make = CharField()
     model = CharField()
     year = IntegerField()

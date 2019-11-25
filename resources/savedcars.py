@@ -17,9 +17,9 @@ savedcar = Blueprint('savedcars', 'savedcar')
 def get_all_savedcars():
  
     try:
-        cars = [model_to_dict(savedcar) for savedcar in models.SavedCar.select()]
+        savedcars = [model_to_dict(savedcar) for savedcar in models.SavedCar.select()]
     
-        print(car)
+        print(savedcars)
         return jsonify(data=savedcars, status={"code": 200, "message": "Success"})
     except models.DoesNotExist:
         return jsonify(data={}, status={"code": 401, "message": "Error getting the resources"})
@@ -30,7 +30,7 @@ def create_savedcars():
 
     payload = request.get_json()
     print(payload, 'payload')
-    
+
     payload['owner'] = current_user.id
     savedcar = models.SavedCar.create(**payload)
     savedcar_dict = model_to_dict(savedcar)
