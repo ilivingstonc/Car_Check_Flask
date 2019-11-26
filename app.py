@@ -58,7 +58,7 @@ app.register_blueprint(savedcar, url_prefix='/api/v1/savedcars')
 
 if 'ON_HEROKU' in os.environ:
     print('hitting ')
-    models.initialized()
+    models.initialize()
 
 # Run the app when the program starts!
 if __name__ == '__main__':
