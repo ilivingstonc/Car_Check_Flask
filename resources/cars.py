@@ -16,9 +16,9 @@ car = Blueprint('cars', 'car')
 @car.route('/', methods=["GET"])
 def get_all_cars():
  
-    all_cars = [model_to_dict(d, max_depth=0) for car in models.Dog.select()]
+    all_cars = [model_to_dict(car, max_depth=0) for car in models.Dog.select()]
 
-    return jsonify(data=all_dogs, status={'code': 200, 'message': 'Success'})
+    return jsonify(data=all_cars, status={'code': 200, 'message': 'Success'})
 
 
 @car.route('/<car_id>', methods=["GET"])
