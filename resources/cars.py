@@ -68,7 +68,7 @@ def car_search():
 
 
 
-@car.route('/<id>', methods=["PUT"])
+@car.route('/<id>/', methods=["PUT"])
 def update_car(id):
     payload = request.get_json()
     query = models.Car.update(**payload).where(models.Car.id==id)

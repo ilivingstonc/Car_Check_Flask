@@ -37,7 +37,7 @@ def create_savedcars():
     
     return jsonify(data=savedcar_dict, status={"code": 201, "message": "Success"})
 
-@savedcar.route('/<id>', methods=["GET"])
+@savedcar.route('/<id>/', methods=["GET"])
 def get_savedcar(id):
 
     savedcar = models.SavedCar.get_by_id(id)
@@ -45,21 +45,27 @@ def get_savedcar(id):
 
     return jsonify(data=model_to_dict(savedcar), status={"code": 200, "message": "Success"})
 
-@savedcar.route('/<id>', methods=["PUT"])
-def update_savedcar(id):
+@savedcar.route('/<id>/', methods=["PUT"])
+def update_car(id):
     payload = request.get_json()
-    query = models.SavedCar.update(**payload).where(models.SavedCar.id==id)
+    print(payload)
+    query = models.SavedCar.update(
+       make=payload['make'],
+       model=payload['model'],
+       year=payload['year']  
+        ).where(models.SavedCar.event_id==id)
+    
     query.execute()
 
-    savedcar = models.SavedCar.get_by_id(id)
-    savedcar_dict = model_to_dict(savedcar)
+    car = models.SavedCar.get_by_id(id)
+    car_dict = model_to_dict(car)
 
-    return jsonify(data=savedcar_dict, status={"code": 200, "message": "resource updated successfully"})
+    return jsonify(data=car_dict, status={"code": 200, "message": "resource updated successfully"})
 
 
-@savedcar.route('/<id>', methods=["DELETE"])
+@savedcar.route('/<id>/', methods=["DELETE"])
 def delete_savedcar(id):
-    query = models.SavedCar.delete().where(models.SavedCar.id==id)
+    query = models.SavedCar.delete().where(models.SavedCar.event_id==id)
     query.execute()
 
     return jsonify(data="this is deleted", status={"code": 200, "message": "resource deleted successfully"}) 
